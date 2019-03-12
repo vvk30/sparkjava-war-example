@@ -27,7 +27,7 @@ public class HelloWorld implements SparkApplication {
 		// Using Route
 		notFound((req, res) -> {
 		    res.type("application/json");
-		    return "{\"message\":\"Custom 404\"}";
+		    return "{\"message\":\"404\"}";
 		});
 	}
 }
