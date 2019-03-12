@@ -1,6 +1,7 @@
 import spark.servlet.SparkApplication;
 
 import static spark.Spark.get;
+import static spark.Spark.notFound;
 
 public class HelloWorld implements SparkApplication {
 	public static void main(String[] args) {
@@ -21,6 +22,12 @@ public class HelloWorld implements SparkApplication {
 		// request.splat()[0] is 'hello' and request.splat()[1] 'world'
 		get("/say/*/to/*", (request, response) -> {
 		    return "Number of splat parameters: " + request.splat().length;
+		});
+		
+		// Using Route
+		notFound((req, res) -> {
+		    res.type("application/json");
+		    return "{\"message\":\"Custom 404\"}";
 		});
 	}
 }
