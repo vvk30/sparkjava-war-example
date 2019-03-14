@@ -1,47 +1,44 @@
 package com.xoriant.demo;
+
 import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Service;
 
 /**
- * A JUnit rule that starts a Spark server ( <a href="http://sparkjava.com/">http://sparkjava.com/</a> ) before
- * tests run, and shuts the server down after tests run. It can be annotated with either @{@link org.junit.ClassRule}
- * or {@link org.junit.Rule}. If annotated with ClassRule, then the same server will serve all tests, started before
- * the first test is run and stopped after all tests have finished. If annotated with Rule, then a new server is started
- * before and stopped after each individual test.
- * <p>
- * Example usage:
- * <pre><code>
- * {@literal @}ClassRule
- *  public static final SparkServerRule SPARK_SERVER = new SparkServerRule(service -> {
- *      service.port(56789);
- *      service.get("/ping", (request, response) -> "pong");
- *      service.get("/health", (request, response) -> "healthy");
- *  });
- * </code>
- * </pre>
+ * @author kulkarni_vs
+ *
  */
 public class SparkServerRule extends ExternalResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SparkServerRule.class);
+    /**
+     * LOG used to get logger.
+     */
+    private static final Logger LOG =
+            LoggerFactory.getLogger(SparkServerRule.class);
 
+    /**
+     * service initializer.
+     */
     private ServiceInitializer serviceInitializer;
+    /**
+     * Just a service.
+     */
     private Service service;
 
     /**
-     * Create Spark server rule with specified {@link ServiceInitializer}. You use the {@link ServiceInitializer}
-     * to configure the Spark server port, IP address, security, routes, etc. Things like port and IP address must
-     * be configured before routes.
-     *
-     * @see Service
+     * @param svcInit initialize svc.
      */
-    public SparkServerRule(ServiceInitializer svcInit) {
+    public SparkServerRule(final ServiceInitializer svcInit) {
         this.serviceInitializer = svcInit;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.junit.rules.ExternalResource#before()
+     */
     @Override
-    protected void before() throws Throwable {
+    protected final void before() throws Throwable {
         LOG.trace("Start spark server");
         service = Service.ignite();
         serviceInitializer.init(service);
@@ -53,7 +50,7 @@ public class SparkServerRule extends ExternalResource {
     }
 
     @Override
-    protected void after() {
+    protected final void after() {
         LOG.trace("Stopping Spark...");
         service.stop();
 
