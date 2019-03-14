@@ -1,4 +1,5 @@
 package com.xoriant.demo;
+
 import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -29,9 +30,7 @@ public class SparkServerClassRuleTest {
     @Test
     public void testSparkServerRule_PingRequest() {
         client = ClientBuilder.newBuilder().build();
-        Response response = client.target(URI.create("http://localhost:4567/ping"))
-                .request()
-                .get();
+        Response response = client.target(URI.create("http://localhost:4567/ping")).request().get();
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.readEntity(String.class)).isEqualTo("pong");
     }
@@ -39,11 +38,8 @@ public class SparkServerClassRuleTest {
     @Test
     public void testSparkServerRule_HealthRequest() {
         client = ClientBuilder.newBuilder().build();
-        Response response = client.target(URI.create("http://localhost:4567/health"))
-                .request()
-                .get();
+        Response response = client.target(URI.create("http://localhost:4567/health")).request().get();
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.readEntity(String.class)).isEqualTo("healthy");
     }
-
 }
