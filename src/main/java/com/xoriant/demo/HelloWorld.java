@@ -1,3 +1,4 @@
+package com.xoriant.demo;
 import spark.servlet.SparkApplication;
 
 import static spark.Spark.get;
